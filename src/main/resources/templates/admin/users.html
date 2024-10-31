@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="base::Layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <title>Users Page</title>
+</head>
+<body>
+<section>
+    <div class="container-fluid mt-5 p-5">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-sh">
+                    <div class="card-header">
+                        <p class="text-center fs-4">Users</p>
+                        <th:block th:if="${successMessage}">
+                            <p class="text-success text-center fw-bold">[[${successMessage}]]</p>
+                            <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+                        </th:block>
+
+                        <th:block th:if="${errorMessage}">
+                            <p class="text-danger text-center fw-bold">[[${errorMessage}]]</p>
+                            <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+                        </th:block>
+                    </div>
+
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">Id</th>
+                                <th scope="col">Profile</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Mobile Number</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Address</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="user : ${users}">
+                                <th scope="row">[[${user.id}]]</th>
+                                <td>
+                                    <img th:src="@{'/img/profile_img/' + ${user.profileImage}}"
+                                         width="50px" height="50px"/>
+                                </td>
+                                <td>[[${user.name}]]</td>
+                                <td>[[${user.mobileNumber}]]</td>
+                                <td>[[${user.email}]]</td>
+                                <td>[[${user.address+', '+user.city+', '+user.state+', '+user.pincode}]]</td>
+                                <td>[[${user.isEnable}]]</td>
+                                <td>
+                                    <a th:href="@{'/admin/updateUserStatus?status=true&id='+${user.id}}"
+                                       class="btn btn-primary btn-sm">Active
+                                    </a>
+                                    <a th:href="@{'/admin/updateUserStatus?status=false&id='+${user.id}}"
+                                       class="btn btn-danger btn-sm">Inactive
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
